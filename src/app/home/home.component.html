@@ -1,0 +1,91 @@
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand text-white">QandAOnline</a>
+  <button class="btn btn-danger my-2 my-sm-0" (click)="service.onLogout()">Logout</button>
+</nav>
+
+
+<div class="container" style="max-width: 100%;">
+  <div class="row">
+    <div class="col-sm">
+      <div class="card m-5" *ngIf="userDetails">
+        <ul class="list-group">
+          <li class="list-group-item"><strong>Username : </strong>{{userDetails.userName}}</li>
+          <li class="list-group-item"><strong>Name : </strong>{{userDetails.name}}</li>
+          <li class="list-group-item"><strong>Email : </strong>{{userDetails.email}}</li>
+          <li class="list-group-item"><strong>Image : </strong><img style='width:220px; height: 300px;'
+              src="data:image/jpeg;base64,{{userDetails.image}}" />
+            <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+              <input type="file" name="profile" (change)="onFileSelect($event)" />
+              <button type="submit">Upload</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="m-5">
+        <div class="list-group-item">
+
+          <table>
+            <thead>
+              <h2>Question: {{questionsWithOutAnswer ? questionsWithOutAnswer[num].question : null}}</h2>
+            </thead>
+            <tbody>
+              <input type="button" value="Give an answer" style="margin:3px;" class="btn btn-primary"
+                (click)="giveAnswer(num)" />
+              <input type="button" value="Add question" style="margin:3px;" class="btn btn-primary" (click)="add()" />
+              <tr>
+                <div *ngIf="questionMode">
+                  <td>
+                    <input type="text" [(ngModel)]="answeredQuestion.question" class="form-control" readonly />
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="answeredQuestion.answer" class="form-control" />
+                  </td>
+                  <td>
+                    <input type="button" value="Save" (click)="saveAnswer()" class="btn btn-success" />
+                  </td>
+                </div>
+              </tr>
+            </tbody>
+          </table>
+
+          <table *ngIf="tableMode; else create" class="table table-striped">
+            <thead>
+              <tr>
+                <td>Question</td>
+                <td>Answer</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of questionWithAnswer">
+                <td>{{p?.question}}</td>
+                <td>{{p?.answer}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <ng-template #create>
+            <div class="form-group">
+              <label>Question</label>
+              <input type="text" [(ngModel)]="question.question" class="form-control" />
+            </div>
+            <div>
+              <input type="button" value="Save" (click)="saveQuestion()" class="btn btn-success" />
+              <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-sm">
+      <ul class="list-group m-5">
+        <li class="list-group-item" *ngFor="let p of userWithCrops" (click)="getprofil(p.id)"><img
+            src="data:image/jpeg;base64,{{p.image}}" class="mr-3"
+            style="height: 80px; width: 60px;"><a><strong>{{p.userName}}</strong>  {{p.count}} </a></li>
+      </ul>
+    </div>
+  </div>
+</div>

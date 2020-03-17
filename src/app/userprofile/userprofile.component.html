@@ -1,0 +1,48 @@
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand text-white">QandAOnline</a>
+    <a class="navbar-brand text-white">USER</a>
+    <button class="btn btn-danger my-2 my-sm-0" (click)="service.onLogout()">Logout</button>
+</nav>
+
+
+
+
+<div class="container" style="max-width: 100%;">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card m-5" *ngIf="userDetails">
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Username : </strong>{{userDetails.userName}}</li>
+                    <li class="list-group-item"><strong>Name : </strong>{{userDetails.name}}</li>
+                    <li class="list-group-item"><strong>Email : </strong>{{userDetails.email}}</li>
+                    <li class="list-group-item"><strong>Image : </strong><img style='width:220px; height: 300px;'
+                            src="data:image/jpeg;base64,{{userDetails.image}}" />
+                    </li>
+                    <li class="list-group-item"><button type="submit" (click)="onSubmit()">subscribe</button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="m-5 list-group-item">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td>Question</td>
+                            <td>Answer</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of questionWithAnswer">
+                            <td>{{p?.question}}</td>
+                            <td>{{p?.answer}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm">
+
+        </div>
+    </div>
+</div>
