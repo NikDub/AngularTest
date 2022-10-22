@@ -1,0 +1,37 @@
+<div class="m-5">
+  <div class="row card border-primary">
+    <div class="card-header">
+      <h3 style="text-align: center;">Questions</h3>
+    </div>
+    <div *ngIf="!isLoadingQuest;else loading">
+      <div *ngIf="QuestionWithAnswer.length!=0; else empty">
+        <div *ngFor="let item of QuestionWithAnswer">
+          <div class="media position-relative blocklistansver">
+            <a routerLink="/userprofile/{{item.user.id}}" title="{{item.user.userName}}">
+              <img class="imgmargin avatar avatar-64" src="data:image/jpeg;base64,{{item.user.files[0].value}}" />
+            </a>
+            <div class="media-body">
+              <a class="text-break text-link" routerLink="/home/question/showquestion/{{item.id}}">{{item.head}}</a>
+              <div class="input-group">
+                <a class="text-muted" style="margin-bottom: 0;"
+                  routerLink="/category/{{item.category.id}}">{{item.category.name}}</a>
+                <p class="text-muted" style="margin-bottom: 0;">, {{item.date}} ago -
+                  {{item.answers.length}} answer - {{item.ratingCount}} likes</p>
+              </div>
+            </div>
+          </div>
+          <hr class="solid">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <app-wait-loading> </app-wait-loading>
+</ng-template>
+
+<ng-template #empty>
+  <strong> This list is currently empty.</strong>
+</ng-template>

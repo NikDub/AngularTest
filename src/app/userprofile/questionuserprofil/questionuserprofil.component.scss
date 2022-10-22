@@ -1,0 +1,48 @@
+.imgmargin{
+    margin: 5px;
+    margin-right: 10px;
+}
+
+a{
+    color: black;
+    font-size: 22px;
+    font-weight: 450;
+}
+a.text-muted{
+    font-size: 19px;
+}
+
+
+a:hover{
+    cursor: pointer;
+}
+hr.solid {
+    margin: 0px;
+}
+
+.blocklistansver{
+    padding: 10px 0px 10px 5px;
+}
+
+.img-margin{
+    margin-right: 5px;
+}
+
+.texthref{
+    text-decoration: underline;
+    color: rgb(88, 26, 168);
+}
+.texthref:hover{
+    text-decoration: none;
+    color: #F39C12;
+}
+
+p{
+    font-size: 19px;
+}
+
+
+.shadow{
+    box-shadow: 0 0 80px 4px rgb(235, 171, 70) !important;
+}
+

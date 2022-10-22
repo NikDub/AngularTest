@@ -1,0 +1,41 @@
+<form [formGroup]="recallModel" (submit)="onSubmit()">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm m-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title" style="text-align: center;">Add Recall</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="m-4">
+                            <div class="form-group">
+                                <span class="float-right font-weight-light">{{headCount}}</span>
+                                <label>Header <span style="color: red;"> *</span> </label>
+                                <textarea class="form-control" aria-label="With textarea" formControlName="Head"
+                                    (ngModelChange)="OnChangeHead()"></textarea>
+                                <div class="text-danger"
+                                    *ngIf="recallModel.get('Head').touched && recallModel.get('Head').errors?.minlength">Minimum number of characters to enter 20.</div>
+                                <div class="text-danger"
+                                    *ngIf="recallModel.get('Head').touched && recallModel.get('Head').errors?.maxlength">The
+                                    maximum number of characters for input has been exceeded.</div>
+                            </div>
+                            <div class="form-group">
+                                <span class="float-right font-weight-light">{{textCount}}</span>
+                                <label>Text </label>
+                                <textarea class="form-control" aria-label="With textarea" formControlName="Value"
+                                    (ngModelChange)="OnChangeText()"></textarea>
+                                <div class="text-danger"
+                                    *ngIf="recallModel.get('Value').touched && recallModel.get('Value').errors?.maxlength">The
+                                    maximum number of characters for input has been exceeded.</div>
+                                    <br>
+                            </div>
+                          
+                            <button type="submit" class="btn btn-secondary"
+                                [disabled]="!recallModel.valid">Add Recall</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

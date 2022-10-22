@@ -1,0 +1,164 @@
+<div class="container" style="max-width: 100%;">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card  border-primary m-5">
+                <div class="card-header">
+                    <h3 style="text-align: center;">Last Answers</h3>
+                </div>
+                <div *ngIf="!isLoadingAnswer; else loading">
+                    <div *ngFor="let item of lastAnswer">
+                        <div class="media position-relative blocklistansver">
+                            <a routerLink="/userprofile/{{item.user.id}}" title="{{item.user.userName}}">
+                                <img class="imgmargin avatar avatar-64"
+                                    src="data:image/jpeg;base64,{{item.user.files[0].value}}" />
+                            </a>
+                            <div class="text-truncate">
+                                <a class="text-break text-link text-capitalize"
+                                    routerLink="/home/question/showquestion/{{item.question.id}}" title="{{item.question.head}}">{{item.question.head}}</a>
+                                <p class="text-break text-capitalize text-truncate " title="{{item.value}}">{{item.value}}</p>
+                            </div>
+                        </div>
+                        <hr class="solid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card  border-primary m-5" id="lastQuest">
+                <div class="card-header">
+                    <h3 style="text-align: center;">Last Questions</h3>
+                </div>
+                <div *ngIf="!isLoadingQuest; else loading">
+
+                    <div *ngFor="let item of lastQuestion">
+                        <div class="row" style="width: 100%;">
+                            <div class="col">
+                                <div class="media position-relative blocklistansver">
+                                    <a routerLink="/userprofile/{{item.user.id}}" title="{{item.user.userName}}">
+                                        <img class="imgmargin avatar avatar-64"
+                                            src="data:image/jpeg;base64,{{item.user.files[0].value}}" />
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="text-break text-link text-capitalize"
+                                            routerLink="/home/question/showquestion/{{item.id}}">{{item.head}}</a>
+                                        <div class="input-group">
+                                            <a class="text-muted" style="margin-bottom: 0;"
+                                                routerLink="/category/{{item.category.id}}">{{item.category.name}}</a>
+                                            <p class="text-muted" style="margin-bottom: 0;">, {{item.date}} ago -
+                                                {{item.answers.length}} answer</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-m-1 align-self-center">
+                                <img src="https://img.icons8.com/emoji/48/000000/star-emoji.png" style="width: 40px;"/>
+                                <p style="text-align: center;">{{item.ratingCount}}</p>
+                            </div>
+                        </div>
+                        <hr class="solid">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card  border-primary m-5" id="rating-top">
+                <div class="card-header">
+                    <h3 style="text-align: center;">Top</h3>
+                </div>
+                <div *ngIf="!isLoadingRatings; else loading">
+
+                    <div *ngFor="let p of ratingsList; index as i">
+                        <a class="list-group-item" style="padding: 0px 20px;" routerLink="/userprofile/{{p.id}}">
+                            <div class="row">
+                                <div class="col-m-1">
+                                    <a style="margin-right:10px ;">{{i+1}}.</a>
+                                </div>
+                                <div class="col">
+                                    <a title="{{p.userName}}">
+                                        <img src="data:image/jpeg;base64,{{p.image}}" class="imgmargin avatar avatar-64"
+                                            style="height: 80px; width: 60px;">
+                                    </a>
+                                    <a>
+                                        <a class=" text-link text-capitalize">{{p?.userName}}</a>
+                                        {{p?.count}}
+                                    </a>
+                                </div>
+                                <div class="col-m-1">
+                                    <img src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                                        style="width: 40px;" />
+                                    <p style="text-align: center;">{{p.ratingCount}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="media position-relative">
+                <img class="imgmargin" src="https://img.icons8.com/dusk/64/000000/students.png" />
+                <div class="media-body">
+                    <h4 class="mt-0">Для кого предназначен сервис?</h4>
+                    <p>Наш сайт создан для всех и каждого, кто находится в <a class="texthref"
+                            routerLink="/home/question/addquestion">поиске ответа</a>
+                        на
+                        какой-либо вопрос или же хочет <a class="texthref" href="#lastquest"
+                            onclick="$('div#lastQuest').addClass('shadow'); setTimeout(function() {$('div#lastQuest').removeClass('shadow') }, 2000)">блеснуть
+                            эрудицией</a> в той или
+                        иной
+                        области, ответив на вопрос другого пользователя.</p>
+                </div>
+            </div>
+            <div class="media position-relative">
+                <img class="imgmargin" src="https://img.icons8.com/dusk/64/000000/ask-question.png" />
+                <div class="media-body">
+                    <h4 class="mt-0">Кто отвечает на вопросы и что получает за это?</h4>
+                    <p>Ответы могут оставлять все авторизованные пользователи сервиса, в том числе и <a class="texthref"
+                            routerLink="/home">вы</a>. Пользователи, чей ответ оценили, выводится в <a class="texthref"
+                            routerLink="#top-cat"
+                            onclick="$('div#rating-top').addClass('shadow'); setTimeout(function() {$('div#rating-top').removeClass('shadow') }, 2000)">рейтинг</a>.
+                    </p>
+                </div>
+            </div>
+            <div class="media position-relative">
+                <img class="imgmargin" src="https://img.icons8.com/dusk/64/000000/list.png" />
+                <div class="media-body">
+                    <h4 class="mt-0">Какие вопросы можно задавать?</h4>
+                    <p>Мы не ограничиваем наш сайт какой-либо спецификой. Сервис предоставляет множество <a
+                            class="texthref"
+                            onclick="$('div#dd1').addClass('show'); setTimeout(function() {$('div#dd1').removeClass('show') }, 2000)"
+                            routerLink="#top-cat">категорий
+                            вопросов</a>, из которых каждый может выбрать что-то своё.</p>
+                </div>
+            </div>
+            <div class="media position-relative">
+                <img class="imgmargin" src="https://img.icons8.com/dusk/64/000000/communication.png" />
+                <div class="media-body">
+                    <h4 class="mt-0">Как происходит взаимодействие с пользователями?</h4>
+                    <p>Помимо возможности задавать вопрос, были реализованные комментарии, где пользователи обмениваются
+                        мнениями, дискутируют и общаются. Так же имеется возможность <a class="texthref"
+                            routerLink="/userList">подписаться на пользователя</a>
+                        , чтобы в дальнейшем следить за его активностью.</p>
+                </div>
+            </div>
+            <div class="media position-relative">
+                <img class="imgmargin" src="https://img.icons8.com/dusk/64/000000/statistics.png" />
+                <div class="media-body">
+                    <h4 class="mt-0">Планируется ли улучшение сайта?</h4>
+                    <p>Мы постоянно стараемся усовершенствовать наш проект для более удобного использования
+                        пользователями. Вы
+                        всегда можете помочь активному развитию нашего сервиса вопросов и ответов, оставляя свои <a
+                            class="texthref" routerLink="/recallsList">отзывы
+                            и комментарии</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <app-wait-loading> </app-wait-loading>
+</ng-template>

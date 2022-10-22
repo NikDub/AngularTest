@@ -1,0 +1,56 @@
+<div class="m-5 row justify-content-center">
+    <div class="col-8 ">
+        <div class="card border-primary">
+            <div class="card-header">
+                <h3 style="text-align: center;">Recalls List</h3>
+
+            </div>
+            <div class="row" style="width: 100%" >
+                <div class="col" routerLink="/recallsList/recalls" title="Add Recalls" style="cursor: pointer;">
+                    <div class="media  blocklistansver">
+                            <img class="imgmargin avatar avatar-45" src="https://img.icons8.com/dusk/64/000000/add--v2.png" />
+                            <p class="text-break text-link text-muted" style="padding: 10px 0px 0px 0px;">Click to add new recalls</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="solid">
+
+            <div *ngIf="!isLoading;else loading">
+                <div *ngFor="let item of recallsList">
+                    <div class="row" style="width: 100%;">
+                        <div class="col">
+                            <div class="media position-relative blocklistansver">
+                                <a routerLink="/userprofile/{{item.user.id}}" title="{{item.user.userName}}">
+                                    <img class="imgmargin avatar avatar-64"
+                                        src="data:image/jpeg;base64,{{item.user.files[0].value}}" />
+                                </a>
+                                <div class="media-body">
+                                    <p class="text-break text-link text-capitalize">{{item.head}}</p>
+                                    <div class="input-group">
+                                        <p class="text-muted" style="margin-bottom: 0;">{{item.value}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-lg-2" *ngIf="checkUSer()">
+                            <a *ngIf="recallsSettings(item.userId)" type="button" class="settings-icons" data-toggle="dropdown" id="top-cat"></a>
+                            
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="input-group dropdown-item" (click)="recallsDelete(item.id)">
+                                    <img src="https://img.icons8.com/metro/26/000000/trash.png" />
+                                    <a style="text-align: center;margin: auto; font-size: 15px;"> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="solid">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <ng-template #loading>
+        <app-wait-loading> </app-wait-loading>
+    </ng-template>

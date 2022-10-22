@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -8,11 +9,32 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(public service: UserService, private toastr: ToastrService) { }
+  constructor(public service: UserService, private toastr: ToastrService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.service.formModel = this.fb.group({
+      UserName: ['', Validators.required],
+      Name: [''],
+      Email: ['', Validators.email],
+      Passwords: this.fb.group({
+        Password: ['', [Validators.required, Validators.minLength(4)]],
+        ConfirmPassword: ['', Validators.required]
+      }, { validator: this.comparePasswords })
+    })
     this.service.formModel.reset();
   }
+
+  comparePasswords(fb: FormGroup) {
+    let confirmPswrdCtrl = fb.get('ConfirmPassword');
+    if (confirmPswrdCtrl.errors == null || 'passwordMismatch' in confirmPswrdCtrl.errors) 
+    {
+      if (fb.get('Password').value != confirmPswrdCtrl.value)
+        confirmPswrdCtrl.setErrors({ passwordMismatch: true });
+      else
+        confirmPswrdCtrl.setErrors(null);
+    }
+  }
+
   onSubmit() {
     this.service.register().subscribe(
       (res: any) => {
@@ -38,4 +60,5 @@ export class RegistrationComponent implements OnInit {
       }
     );
   }
+  
 }

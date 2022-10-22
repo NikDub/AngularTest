@@ -1,0 +1,26 @@
+<table class="table table-dark table-striped table-hover" style="background-color: black; color: white;">
+    <thead>
+      <tr class="table-danger">
+        <th scope="col">#</th>
+        <th scope="col">Complain Text</th>
+        <th scope="col">User Name</th>
+        <th scope="col">Link</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of userComplainList; let i = index" >
+        <th scope="row">{{i+1}}</th>
+        <td>{{item.value}}</td>
+        <td>{{item.user.userName}}</td>
+        <td >
+          <a routerLink="/userprofile/{{item.user.id}}">
+            <img  style="filter: invert(1); cursor: pointer;" src="https://img.icons8.com/material-sharp/24/000000/external-link.png"/>
+          </a>
+        </td>
+        <td>
+          <img src="../../../../assets/img/seen_no.png" width="26px" [class.imgcontent]="cheack(item)" onclick="$(this).toggleClass('imgcontent');" (click)="setRatingById(item.id)"/>
+        </td>
+      </tr>
+    </tbody>
+  </table>

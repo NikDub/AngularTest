@@ -1,0 +1,30 @@
+<div class="row justify-content-center">
+    <div class="col-9">
+        <div class="row" *ngIf="!isLoadingUsers; else loading">
+            <div *ngFor="let item of userList" class="card_colob">
+                <div class="col">
+                    <div class="card">
+                        <img class="img" src="data:image/jpeg;base64,{{item.image}}" alt="">
+                        <div class="card-body row">
+                            <div class="col">
+                                <h4 class="card-title text-capitalize text-truncate" style="width: 120px;" >{{item.userName}}</h4>
+                                <a routerLink="/userprofile/{{item.id}}" class="btn btn-primary stretched-link" title="{{item.userName}}">See
+                                    Profile</a>
+                            </div>
+                            <div class="col-m-1">
+                                <img src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                                style="width: 40px; height: auto;" />
+                                <p class="card-text" style="text-align: center;">{{item.ratingCount}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #loading>
+    <app-wait-loading> </app-wait-loading>
+</ng-template>

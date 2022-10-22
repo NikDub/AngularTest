@@ -1,0 +1,16 @@
+<div class="wrapper">
+    <div class="wrapped-div" style="background:#2C3E50; max-width: 100%;">
+      <div class="tab-header">
+          <br>
+        <h1 style="color: #fff;">Complaints</h1>
+        <h2 routerLink='/complaints/answers' routerLinkActive='active'>Answers List</h2>
+        <h2 routerLink='/complaints/questions' routerLinkActive='active'>Questions List</h2>
+        <h2 routerLink='/complaints/users' routerLinkActive='active'>User List</h2>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-md-11">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>

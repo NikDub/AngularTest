@@ -1,0 +1,38 @@
+<div class="border-primary card m-5" *ngIf="!isLoading;else loading">
+    <div class="card-header">
+      <h3 style="text-align: center;">Subscriptions</h3>
+    </div>
+    <div *ngIf="userWithCrops.length!=0; else empty">
+      <div class="card-body" *ngFor="let p of userWithCrops">
+        <div class="row">
+  
+          <a class="col" routerLink="/userprofile/{{p.id}}">
+            <div>
+              <img src="data:image/jpeg;base64,{{p.image}}" class="mr-3 avatar avatar-64" style="height: 80px; width: 60px;">
+              <strong class="text-capitalize">{{p?.userName}}</strong>
+            </div>
+          </a>
+          <div class="col-m-1" style="text-align: center;">
+            <img src="https://img.icons8.com/clouds/100/000000/question-mark.png" width="50px" />
+            <p>{{p?.questionCount}}</p>
+          </div>
+          <div class="col-m-1" style="text-align: center;">
+            <img src="https://img.icons8.com/emoji/48/000000/star-emoji.png" width="50px" />
+            <p>{{p.ratingCount}}</p>
+          </div>
+        </div>
+        <hr class="solid">
+  
+      </div>
+  
+    </div>
+  </div>
+  
+  
+  <ng-template #loading>
+    <app-wait-loading> </app-wait-loading>
+  </ng-template>
+  
+  <ng-template #empty>
+    <strong style="text-align: center;">This list is now empty.</strong>
+  </ng-template>

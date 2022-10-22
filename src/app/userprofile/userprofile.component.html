@@ -1,48 +1,135 @@
-<nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand text-white">QandAOnline</a>
-    <a class="navbar-brand text-white">USER</a>
-    <button class="btn btn-danger my-2 my-sm-0" (click)="service.onLogout()">Logout</button>
-</nav>
-
-
-
-
 <div class="container" style="max-width: 100%;">
     <div class="row">
         <div class="col-sm">
-            <div class="card m-5" *ngIf="userDetails">
-                <ul class="list-group">
-                    <li class="list-group-item"><strong>Username : </strong>{{userDetails.userName}}</li>
-                    <li class="list-group-item"><strong>Name : </strong>{{userDetails.name}}</li>
-                    <li class="list-group-item"><strong>Email : </strong>{{userDetails.email}}</li>
-                    <li class="list-group-item"><strong>Image : </strong><img style='width:220px; height: 300px;'
-                            src="data:image/jpeg;base64,{{userDetails.image}}" />
-                    </li>
-                    <li class="list-group-item"><button type="submit" (click)="onSubmit()">subscribe</button></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="m-5 list-group-item">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <td>Question</td>
-                            <td>Answer</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let p of questionWithAnswer">
-                            <td>{{p?.question}}</td>
-                            <td>{{p?.answer}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-sm">
+            <div class="card m-5">
+                <div class="card-header">
+                    <div *ngIf="service.checkUSer()">
+                        <a type="button" class="settings-icons" data-toggle="dropdown" id="top-cat"></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div *ngIf="service.roleMatchAdmin()" class="input-group dropdown-item"
+                                data-target="#EditUser" data-toggle="modal">
+                                <img width="26px"
+                                    src="https://img.icons8.com/ios-glyphs/30/000000/edit-user-male.png" />
+                                <a style="text-align: center;margin: auto; font-size: 15px;"> Edit</a>
+                            </div>
+                            <div class="input-group dropdown-item" data-target="#ComplainModelUser" data-toggle="modal">
+                                <img src="https://img.icons8.com/metro/26/000000/strike.png" />
+                                <a style="text-align: center;margin: auto; font-size: 15px;"> Complain</a>
+                            </div>
+                            <div *ngIf="service.roleMatchAdmin()" class="input-group dropdown-item"
+                                (click)="deleteUserByAdmin(userDetails?.id)">
+                                <img src="https://img.icons8.com/metro/26/000000/trash.png" />
+                                <a style="text-align: center;margin: auto; font-size: 15px;"> Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 style="text-align: center;">Profile</h3>
 
+                </div>
+                <div *ngIf="!isLoadingUser; else loading">
+                    <div class="card-body">
+                        <h6 class="card-subtitle text-muted">User Name</h6>
+                        <h5 class="card-title text-capitalize">{{userDetails?.userName}}</h5>
+                        <h6 class="card-subtitle text-muted">Name</h6>
+                        <h5 class="card-title text-capitalize">{{userDetails?.name}}</h5>
+                        <h6 class="card-subtitle text-muted">Email</h6>
+                        <h5 class="card-title">{{userDetails?.email}}</h5>
+                        <img class="img-prof img-fluid " src="data:image/jpeg;base64,{{userDetails.image}}"
+                            alt="Card image">
+                    </div>
+                    <div *ngIf="checkUSer()">
+                        <button *ngIf="checkSub(); else unsub" class="btn btn-outline-secondary"
+                            (click)="onSubmit()">Subscribe</button>
+                        <ng-template #unsub>
+                            <button class="btn btn-outline-secondary" (click)="onSubmit()">Unsubscribe</button>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-questionuserprofil class="col-sm-6" [userId]='userID'> </app-questionuserprofil>
+        <app-sub-users class="col-sm" [userId]='userID'></app-sub-users>
+
+    </div>
+</div>
+
+<ng-template #loading>
+    <app-wait-loading> </app-wait-loading>
+</ng-template>
+
+
+
+<div role="dialog" id="ComplainModelUser" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Complain</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form [formGroup]="compModel" (submit)="complainUser()">
+                <div class="modal-body">
+
+                    <span class="float-right font-weight-light">{{compCount}}</span>
+                    <h6 class="card-subtitle text-muted">You complain</h6>
+                    <textarea type="text" class="form-control" formControlName="Value"
+                        (ngModelChange)="OnChangeComp()"></textarea>
+                    <div class="text-danger"
+                        *ngIf="compModel.get('Value').touched && compModel.get('Value').errors?.required">
+                        This
+                        field is required.</div>
+                    <div class="text-danger"
+                        *ngIf="compModel.get('Value').touched && compModel.get('Value').errors?.maxlength">
+                        The
+                        maximum number of characters for input has been exceeded.</div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-dark" [disabled]="!compModel.valid"
+                        (click)="complainUser()" data-dismiss="modal">Complain</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div role="dialog" id="EditUser" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit User</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form [formGroup]="userModel" (submit)="saveUserChanges()">
+                <div class="modal-body">
+
+                    <h6 class="card-subtitle text-muted">User Name</h6>
+                    <input type="text" class="form-control" formControlName="userName" value="{{userDetails?.userName}}"/>
+                    <div class="text-danger"
+                        *ngIf="userModel.get('userName').touched && userModel.get('userName').errors?.required">
+                        This
+                        field is required.</div>
+                    <div class="text-danger"
+                        *ngIf="userModel.get('userName').touched && userModel.get('userName').errors?.maxlength">
+                        The
+                        maximum number of characters for input has been exceeded.</div>
+                    <br>
+                    <h6 class="card-subtitle text-muted">Name</h6>
+                    <input type="text" class="form-control" formControlName="name" value="{{userDetails?.name}}"/>
+                    <div class="text-danger"
+                        *ngIf="userModel.get('name').touched && userModel.get('name').errors?.required">
+                        This field is required.</div>
+                    <div class="text-danger"
+                        *ngIf="userModel.get('name').touched && userModel.get('name').errors?.maxlength">
+                        The maximum number of characters for input has been exceeded.</div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-dark" [disabled]="!userModel.valid"
+                        (click)="saveUserChanges()" data-dismiss="modal">Save changes</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
